@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Money Forge</title>
+
+<style>
+
+body{
+background:#111;
+color:white;
+font-family:Arial, sans-serif;
+text-align:center;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+height:100vh;
+margin:0;
+}
+
+h1{
+font-size:48px;
+letter-spacing:3px;
+margin-top:20px;
+}
+
+button{
+margin-top:40px;
+font-size:24px;
+padding:20px 50px;
+background:#d4af37;
+border:none;
+border-radius:8px;
+cursor:pointer;
+}
+
+button:hover{
+background:#f1c94a;
+}
+
+img{
+width:160px;
+}
+
+</style>
+</head>
+
+<body>
+
+<img src="anvil.png">
+
+<h1>MONEY FORGE</h1>
+
+<button onclick="strikeForge()">STRIKE</button>
+
+<audio id="hammer">
+<source src="hammer.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+function strikeForge(){
+
+document.getElementById("hammer").play();
+
+setTimeout(function(){
+window.location.href="index.html";
+},700);
+
+}
+
+</script>
+
+</body>
+</html>
