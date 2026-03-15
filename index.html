@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Money Forge</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#111;
+color:white;
+padding:20px;
+}
+
+h1{
+text-align:center;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+}
+
+th,td{
+border:1px solid #444;
+padding:10px;
+text-align:left;
+}
+
+th{
+background:#222;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>MONEY FORGE</h1>
+
+<input type="file" id="csvFile" accept=".csv">
+
+<table id="transactionTable">
+
+<thead>
+<tr>
+<th>Date</th>
+<th>Description</th>
+<th>Amount</th>
+</tr>
+</thead>
+
+<tbody></tbody>
+
+</table>
+
+<script>
+
+document.getElementById('csvFile').addEventListener('change', handleFile);
+
+function handleFile(event){
+
+const file = event.target.files[0];
+
+const reader = new FileReader();
+
+reader.onload = function(e){
+
+const text = e.target.result;
+const rows = text.split('\n');
+
+const tableBody = document.querySelector("#transactionTable tbody");
+tableBody.innerHTML = "";
+
+rows.forEach((row,i)=>{
+
+if(i===0) return;
+
+const cols = row.split(',');
+
+if(cols.length < 3) return;
+
+let tr = document.createElement("tr");
+
+cols.slice(0,3).forEach(col=>{
+let td = document.createElement("td");
+td.textContent = col;
+tr.appendChild(td);
+});
+
+tableBody.appendChild(tr);
+
+});
+
+};
+
+reader.readAsText(file);
+
+}
+
+</script>
+
+</body>
+</html>
