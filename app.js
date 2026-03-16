@@ -6,6 +6,7 @@ text = text.toUpperCase();
 
 text = text.replace(/CARD.*$/,"");
 text = text.replace(/VALUE DATE.*$/,"");
+text = text.replace("7-ELEVEN","SEVEN-ELEVEN");
 text = text.replace(/\d+/g,"");
 
 text = text.replace("SQ *","");
