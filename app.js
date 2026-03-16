@@ -1,5 +1,7 @@
 function cleanVendor(text){
 
+text = text.replace(/"/g,"");   // remove quotes
+
 text = text.toUpperCase();
 
 text = text.replace(/CARD.*$/,"");
