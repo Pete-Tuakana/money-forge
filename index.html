@@ -67,32 +67,33 @@ document.getElementById('csvFile').addEventListener('change', handleFile);
 function handleFile(event){
 
 const file = event.target.files[0];
-
 const reader = new FileReader();
 
 reader.onload = function(e){
 
 const text = e.target.result;
-const rows = text.split('\n');
+const rows = text.split("\n");
 
 const tableBody = document.querySelector("#transactionTable tbody");
 tableBody.innerHTML = "";
 
-rows.forEach((row,i)=>{
+rows.forEach(row => {
 
-if(i===0) return;
-
-const cols = row.split(',');
+const cols = row.split(",");
 
 if(cols.length < 3) return;
 
+let date = cols[0].trim();
+let amount = cols[1].trim();
+let description = cols[2].trim();
+
 let tr = document.createElement("tr");
 
-cols.slice(0,3).forEach(col=>{
-let td = document.createElement("td");
-td.textContent = col;
-tr.appendChild(td);
-});
+tr.innerHTML = `
+<td>${date}</td>
+<td>${description}</td>
+<td>${amount}</td>
+`;
 
 tableBody.appendChild(tr);
 
