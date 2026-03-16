@@ -105,7 +105,7 @@ if(cols.length < 3) return;
 
 let date = cols[0].trim();
 let amount = cols[1].trim();
-let description = cols[2].trim();
+let description = cleanVendor(cols[2].trim());
 
 let tr = document.createElement("tr");
 
