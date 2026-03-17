@@ -95,16 +95,17 @@ const rows = text.split("\n");
 const tableBody = document.querySelector("#transactionTable tbody");
 tableBody.innerHTML = "";
 
-rows.forEach(row => {
+for(const row of rows){
 
 const cols = row.split(",");
 
-if(cols.length < 3) return;
+if(cols.length < 3) continue;
 
 let date = cols[0].trim();
 let amount = cols[1].trim();
 let vendor = cleanVendor(cols[2].trim());
-let category = learnVendor(vendor);
+
+let category = await learnVendor(vendor);
 
 let tr = document.createElement("tr");
 
