@@ -87,7 +87,7 @@ function handleFile(event){
 const file = event.target.files[0];
 const reader = new FileReader();
 
-reader.onload = function(e){
+reader.onload = async function(e){
 
 const text = e.target.result;
 const rows = text.split("\n");
@@ -117,11 +117,11 @@ tr.innerHTML = `
 
 tableBody.appendChild(tr);
 
-});
+}
 
 };
 
-reader.onload = async function(e){
+reader.readAsText(file);
 
 }
 
