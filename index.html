@@ -79,7 +79,8 @@ background:#555;
 <script src="app.js"></script>
   
 <script>
-
+let totalIncome = 0;
+let totalExpenses = 0;
 document.getElementById('csvFile').addEventListener('change', handleFile);
 
 function handleFile(event){
@@ -106,7 +107,11 @@ let amount = parseFloat(cols[1].replace(/"/g,"").trim());
 let type = amount > 0 ? "income" : "expense";
 let vendor = cleanVendor(cols[2].trim());
 let color = amount > 0 ? "#4CAF50" : "#FF5252";
-
+if(type === "income"){
+totalIncome += amount;
+} else {
+totalExpenses += amount;
+}
 tr.innerHTML = `
 <td>${date}</td>
 <td>${vendor}</td>
