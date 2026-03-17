@@ -137,9 +137,11 @@ tableBody.appendChild(tr);
 reader.readAsText(file);
 
 }
-
+console.log("Income:", totalIncome);
+console.log("Expenses:", totalExpenses);
+console.log("Net:", totalIncome + totalExpenses);
 </script>
-
+  
 <div id="categoryPopup" style="display:none; position:fixed; bottom:0; left:0; right:0; background:#222; padding:20px; border-top:2px solid #444;">
 
 <h3 id="vendorTitle"></h3>
