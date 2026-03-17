@@ -43,18 +43,40 @@ localStorage.setItem("vendorMemory", JSON.stringify(memory));
 
 function learnVendor(vendor){
 
+return new Promise(resolve => {
+
 let memory = getVendorMemory();
 
 if(memory[vendor]){
-return memory[vendor];
+resolve(memory[vendor]);
+return;
 }
 
-let category = prompt("Assign category for: " + vendor);
+let popup = document.getElementById("categoryPopup");
+let title = document.getElementById("vendorTitle");
+
+title.textContent = "Assign category for " + vendor;
+
+popup.style.display = "block";
+
+document.querySelectorAll(".catBtn").forEach(button => {
+
+button.onclick = function(){
+
+let category = this.textContent;
 
 memory[vendor] = category;
 
 saveVendorMemory(memory);
 
-return category;
+popup.style.display = "none";
+
+resolve(category);
+
+};
+
+});
+
+});
 
 }
