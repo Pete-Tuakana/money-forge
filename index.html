@@ -102,7 +102,7 @@ const cols = row.split(",");
 if(cols.length < 3) continue;
 
 let date = cols[0].trim();
-let amount = cols[1].trim();
+let amount = parseFloat(cols[1].replace(/"/g,"").trim());
 let vendor = cleanVendor(cols[2].trim());
 
 let category = await learnVendor(vendor);
