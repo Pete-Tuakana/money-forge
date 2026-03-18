@@ -159,11 +159,6 @@ console.log("Net:", totalIncome + totalExpenses);
   
 }
 };
-
-reader.readAsText(file);
-
-}
-
 let forgeableCapital = totalIncome + survivalTotal;
 
 // set color
@@ -172,6 +167,9 @@ el.style.color = forgeableCapital >= 0 ? "#4CAF50" : "#FF5252";
 
 // animate
 animateForge(forgeableCapital);
+reader.readAsText(file);
+
+}
   
 </script>
   
