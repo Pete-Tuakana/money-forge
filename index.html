@@ -103,7 +103,7 @@ reader.onload = async function(e){
 totalIncome = 0;
 totalExpenses = 0;
 survivalTotal = 0;
-  
+
 const text = e.target.result;
 const rows = text.split("\n");
 
@@ -112,46 +112,56 @@ tableBody.innerHTML = "";
 
 for(const row of rows){
 
-const cols = row.split(",");
+    const cols = row.split(",");
+    if(cols.length < 3) continue;
 
-if(cols.length < 3) continue;
+    let date = cols[0].trim();
+    let amount = parseFloat(cols[1].replace(/"/g,"").trim());
+    let type = amount > 0 ? "income" : "expense";
+    let vendor = cleanVendor(cols[2].trim());
+    let color = amount > 0 ? "#4CAF50" : "#FF5252";
+    let category;
 
-let date = cols[0].trim();
-let amount = parseFloat(cols[1].replace(/"/g,"").trim());
-let type = amount > 0 ? "income" : "expense";
-let vendor = cleanVendor(cols[2].trim());
-let color = amount > 0 ? "#4CAF50" : "#FF5252";
-let category;
+    // ✅ FIRST get category
+    if(sessionVendors[vendor]){
+        category = sessionVendors[vendor];
+    } else {
+        category = await learnVendor(vendor);
+        sessionVendors[vendor] = category;
+    }
 
-if(survivalCategories.includes(category)){
-survivalTotal += amount;
+    // ✅ NOW you can safely use category
+    if(survivalCategories.includes(category)){
+        survivalTotal += amount;
+    }
+
+    if(type === "income"){
+        totalIncome += amount;
+    } else {
+        totalExpenses += amount;
+    }
+
+    let tr = document.createElement("tr");
+
+    tr.innerHTML = `
+    <td>${date}</td>
+    <td>${vendor}</td>
+    <td onclick="editCategory('${vendor}')">${category}</td>
+    <td style="color:${color}">${amount.toFixed(2)}</td>
+    `;
+
+    tableBody.appendChild(tr);
 }
-  
-if(sessionVendors[vendor]){
-category = sessionVendors[vendor];
-} else {
-category = await learnVendor(vendor);
-sessionVendors[vendor] = category;
-}
-  
-if(type === "income"){
-totalIncome += amount;
-} else {
-totalExpenses += amount;
-}
 
-// Create row FIRST
-let tr = document.createElement("tr");
+// ✅ AFTER LOOP = NOW totals are correct
+let forgeableCapital = totalIncome + survivalTotal;
 
-// Only ONE innerHTML
-tr.innerHTML = `
-<td>${date}</td>
-<td>${vendor}</td>
-<td onclick="editCategory('${vendor}')">${category}</td>
-<td style="color:${color}">${amount.toFixed(2)}</td>
-`;
+let el = document.getElementById("forgeAmount");
+el.style.color = forgeableCapital >= 0 ? "#4CAF50" : "#FF5252";
 
-tableBody.appendChild(tr);
+animateForge(forgeableCapital);
+
+};
 
 console.log("Income:", totalIncome);
 console.log("Expenses:", totalExpenses);
