@@ -90,16 +90,7 @@ let totalIncome = 0;
 let totalExpenses = 0;
 let survivalCategories = ["Bills", "Groceries", "Fuel"];
 let survivalTotal = 0;
-let el = document.getElementById("forgeAmount");
 
-if(target >= 0){
-el.style.color = "#4CAF50";
-} else {
-el.style.color = "#FF5252";
-}
-if(survivalCategories.includes(category)){
-survivalTotal += amount;
-}
 document.getElementById('csvFile').addEventListener('change', handleFile);
 
 function handleFile(event){
@@ -111,6 +102,7 @@ reader.onload = async function(e){
 
 totalIncome = 0;
 totalExpenses = 0;
+survivalTotal = 0;
   
 const text = e.target.result;
 const rows = text.split("\n");
@@ -131,6 +123,10 @@ let vendor = cleanVendor(cols[2].trim());
 let color = amount > 0 ? "#4CAF50" : "#FF5252";
 let category;
 
+if(survivalCategories.includes(category)){
+survivalTotal += amount;
+}
+  
 if(sessionVendors[vendor]){
 category = sessionVendors[vendor];
 } else {
@@ -160,10 +156,6 @@ tableBody.appendChild(tr);
 console.log("Income:", totalIncome);
 console.log("Expenses:", totalExpenses);
 console.log("Net:", totalIncome + totalExpenses);
-
-let forgeableCapital = totalIncome + survivalTotal;
-
-animateForge(forgeableCapital);
   
 }
 };
@@ -172,6 +164,15 @@ reader.readAsText(file);
 
 }
 
+let forgeableCapital = totalIncome + survivalTotal;
+
+// set color
+let el = document.getElementById("forgeAmount");
+el.style.color = forgeableCapital >= 0 ? "#4CAF50" : "#FF5252";
+
+// animate
+animateForge(forgeableCapital);
+  
 </script>
   
 <div id="categoryPopup" style="display:none; position:fixed; bottom:0; left:0; right:0; background:#222; padding:20px; border-top:2px solid #444;">
