@@ -134,7 +134,7 @@ let tr = document.createElement("tr");
 tr.innerHTML = `
 <td>${date}</td>
 <td>${vendor}</td>
-<td>${category}</td>
+<td onclick="editCategory('${vendor}')">${category}</td>
 <td style="color:${color}">${amount.toFixed(2)}</td>
 `;
 
