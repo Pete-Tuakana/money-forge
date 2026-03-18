@@ -82,3 +82,24 @@ location.reload();
 });
 
 }
+
+function animateForge(target){
+
+let current = 0;
+let step = target / 30;
+
+let interval = setInterval(() => {
+
+current += step;
+
+if((step > 0 && current >= target) || (step < 0 && current <= target)){
+current = target;
+clearInterval(interval);
+}
+
+document.getElementById("forgeAmount").innerText =
+"$" + current.toFixed(0);
+
+}, 30);
+
+}
