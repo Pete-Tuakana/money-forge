@@ -80,7 +80,7 @@ background:#555;
 <script src="app.js"></script>
   
 <script>
-
+let sessionVendors = {};
 let totalIncome = 0;
 let totalExpenses = 0;
 document.getElementById('csvFile').addEventListener('change', handleFile);
@@ -112,7 +112,14 @@ let amount = parseFloat(cols[1].replace(/"/g,"").trim());
 let type = amount > 0 ? "income" : "expense";
 let vendor = cleanVendor(cols[2].trim());
 let color = amount > 0 ? "#4CAF50" : "#FF5252";
-let category = await learnVendor(vendor);
+let category;
+
+if(sessionVendors[vendor]){
+category = sessionVendors[vendor];
+} else {
+category = await learnVendor(vendor);
+sessionVendors[vendor] = category;
+}
   
 if(type === "income"){
 totalIncome += amount;
