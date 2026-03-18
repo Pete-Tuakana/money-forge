@@ -85,6 +85,7 @@ background:#555;
 <script src="app.js"></script>
   
 <script>
+
 let sessionVendors = {};
 let totalIncome = 0;
 let totalExpenses = 0;
@@ -95,92 +96,82 @@ document.getElementById('csvFile').addEventListener('change', handleFile);
 
 function handleFile(event){
 
-const file = event.target.files[0];
-const reader = new FileReader();
+    const file = event.target.files[0];
+    const reader = new FileReader();
 
-reader.onload = async function(e){
+    reader.onload = async function(e){
 
-totalIncome = 0;
-totalExpenses = 0;
-survivalTotal = 0;
+        totalIncome = 0;
+        totalExpenses = 0;
+        survivalTotal = 0;
 
-const text = e.target.result;
-const rows = text.split("\n");
+        const text = e.target.result;
+        const rows = text.split("\n");
 
-const tableBody = document.querySelector("#transactionTable tbody");
-tableBody.innerHTML = "";
+        const tableBody = document.querySelector("#transactionTable tbody");
+        tableBody.innerHTML = "";
 
-for(const row of rows){
+        for(const row of rows){
 
-    const cols = row.split(",");
-    if(cols.length < 3) continue;
+            const cols = row.split(",");
+            if(cols.length < 3) continue;
 
-    let date = cols[0].trim();
-    let amount = parseFloat(cols[1].replace(/"/g,"").trim());
-    let type = amount > 0 ? "income" : "expense";
-    let vendor = cleanVendor(cols[2].trim());
-    let color = amount > 0 ? "#4CAF50" : "#FF5252";
-    let category;
+            let date = cols[0].trim();
+            let amount = parseFloat(cols[1].replace(/"/g,"").trim());
+            let type = amount > 0 ? "income" : "expense";
+            let vendor = cleanVendor(cols[2].trim());
+            let color = amount > 0 ? "#4CAF50" : "#FF5252";
+            let category;
 
-    // ✅ FIRST get category
-    if(sessionVendors[vendor]){
-        category = sessionVendors[vendor];
-    } else {
-        category = await learnVendor(vendor);
-        sessionVendors[vendor] = category;
-    }
+            // get category
+            if(sessionVendors[vendor]){
+                category = sessionVendors[vendor];
+            } else {
+                category = await learnVendor(vendor);
+                sessionVendors[vendor] = category;
+            }
 
-    // ✅ NOW you can safely use category
-    if(survivalCategories.includes(category)){
-        survivalTotal += amount;
-    }
+            // survival calc
+            if(survivalCategories.includes(category)){
+                survivalTotal += amount;
+            }
 
-    if(type === "income"){
-        totalIncome += amount;
-    } else {
-        totalExpenses += amount;
-    }
+            // totals
+            if(type === "income"){
+                totalIncome += amount;
+            } else {
+                totalExpenses += amount;
+            }
 
-    let tr = document.createElement("tr");
+            let tr = document.createElement("tr");
 
-    tr.innerHTML = `
-    <td>${date}</td>
-    <td>${vendor}</td>
-    <td onclick="editCategory('${vendor}')">${category}</td>
-    <td style="color:${color}">${amount.toFixed(2)}</td>
-    `;
+            tr.innerHTML = `
+            <td>${date}</td>
+            <td>${vendor}</td>
+            <td onclick="editCategory('${vendor}')">${category}</td>
+            <td style="color:${color}">${amount.toFixed(2)}</td>
+            `;
 
-    tableBody.appendChild(tr);
+            tableBody.appendChild(tr);
+        }
+
+        // ✅ AFTER LOOP (THIS IS THE KEY)
+        let forgeableCapital = totalIncome + survivalTotal;
+
+        let el = document.getElementById("forgeAmount");
+        el.style.color = forgeableCapital >= 0 ? "#4CAF50" : "#FF5252";
+
+        animateForge(forgeableCapital);
+
+        console.log("Income:", totalIncome);
+        console.log("Expenses:", totalExpenses);
+        console.log("Net:", totalIncome + totalExpenses);
+    };
+
+    // ✅ THIS MUST BE LAST INSIDE handleFile
+    reader.readAsText(file);
 }
 
-// ✅ AFTER LOOP = NOW totals are correct
-let forgeableCapital = totalIncome + survivalTotal;
-
-let el = document.getElementById("forgeAmount");
-el.style.color = forgeableCapital >= 0 ? "#4CAF50" : "#FF5252";
-
-animateForge(forgeableCapital);
-
-};
-
-console.log("Income:", totalIncome);
-console.log("Expenses:", totalExpenses);
-console.log("Net:", totalIncome + totalExpenses);
-  
-}
-};
-let forgeableCapital = totalIncome + survivalTotal;
-
-// set color
-let el = document.getElementById("forgeAmount");
-el.style.color = forgeableCapital >= 0 ? "#4CAF50" : "#FF5252";
-
-// animate
-animateForge(forgeableCapital);
-reader.readAsText(file);
-
-}
-  
 </script>
   
 <div id="categoryPopup" style="display:none; position:fixed; bottom:0; left:0; right:0; background:#222; padding:20px; border-top:2px solid #444;">
