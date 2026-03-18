@@ -69,3 +69,16 @@ resolve(category);
 });
 
 }
+
+function editCategory(vendor){
+
+askUserForCategory(vendor).then(newCategory => {
+
+vendorMemory[vendor] = newCategory;
+localStorage.setItem("vendorMemory", JSON.stringify(vendorMemory));
+
+location.reload();
+
+});
+
+}
