@@ -62,6 +62,11 @@ background:#555;
 
 <input type="file" id="csvFile" accept=".csv">
 
+<div id="forgeBox" style="text-align:center; margin:30px 0;">
+<h2 style="font-size:18px; color:#aaa;">FORGEABLE CAPITAL</h2>
+<div id="forgeAmount" style="font-size:48px; font-weight:bold;">$0</div>
+</div>
+  
 <table id="transactionTable">
 
 <thead>
@@ -83,6 +88,11 @@ background:#555;
 let sessionVendors = {};
 let totalIncome = 0;
 let totalExpenses = 0;
+let survivalCategories = ["Bills", "Groceries", "Fuel"];
+let survivalTotal = 0;
+if(survivalCategories.includes(category)){
+survivalTotal += amount;
+}
 document.getElementById('csvFile').addEventListener('change', handleFile);
 
 function handleFile(event){
@@ -143,6 +153,11 @@ tableBody.appendChild(tr);
 console.log("Income:", totalIncome);
 console.log("Expenses:", totalExpenses);
 console.log("Net:", totalIncome + totalExpenses);
+
+let forgeableCapital = totalIncome + survivalTotal;
+
+animateForge(forgeableCapital);
+  
 }
 };
 
