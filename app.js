@@ -23,51 +23,42 @@ return words[0];
 
 }
 
-function getVendorMemory(){
+let vendorMemory = JSON.parse(localStorage.getItem("vendorMemory")) || {};
 
-let memory = localStorage.getItem("vendorMemory");
+async function learnVendor(vendor){
 
-if(memory){
-return JSON.parse(memory);
+if(vendorMemory[vendor]){
+return vendorMemory[vendor];
 }
 
-return {};
-
-}
-
-function saveVendorMemory(memory){
-
-localStorage.setItem("vendorMemory", JSON.stringify(memory));
+return await askUserForCategory(vendor);
 
 }
 
-function learnVendor(vendor){
+function saveVendor(vendor, category){
+vendorMemory[vendor] = category;
+localStorage.setItem("vendorMemory", JSON.stringify(vendorMemory));
+}
+
+function askUserForCategory(vendor){
 
 return new Promise(resolve => {
 
-let memory = getVendorMemory();
+const popup = document.getElementById("categoryPopup");
+const title = document.getElementById("vendorTitle");
 
-if(memory[vendor]){
-resolve(memory[vendor]);
-return;
-}
-
-let popup = document.getElementById("categoryPopup");
-let title = document.getElementById("vendorTitle");
-
-title.textContent = "Assign category for " + vendor;
-
+title.innerText = `Assign category: ${vendor}`;
 popup.style.display = "block";
 
-document.querySelectorAll(".catBtn").forEach(button => {
+const buttons = document.querySelectorAll(".catBtn");
 
-button.onclick = function(){
+buttons.forEach(btn => {
 
-let category = this.textContent;
+btn.onclick = () => {
 
-memory[vendor] = category;
+const category = btn.innerText;
 
-saveVendorMemory(memory);
+saveVendor(vendor, category);
 
 popup.style.display = "none";
 
