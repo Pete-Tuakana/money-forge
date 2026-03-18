@@ -90,6 +90,13 @@ let totalIncome = 0;
 let totalExpenses = 0;
 let survivalCategories = ["Bills", "Groceries", "Fuel"];
 let survivalTotal = 0;
+let el = document.getElementById("forgeAmount");
+
+if(target >= 0){
+el.style.color = "#4CAF50";
+} else {
+el.style.color = "#FF5252";
+}
 if(survivalCategories.includes(category)){
 survivalTotal += amount;
 }
