@@ -91,6 +91,9 @@ const reader = new FileReader();
 
 reader.onload = async function(e){
 
+totalIncome = 0;
+totalExpenses = 0;
+  
 const text = e.target.result;
 const rows = text.split("\n");
 
