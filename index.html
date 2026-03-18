@@ -107,25 +107,21 @@ let amount = parseFloat(cols[1].replace(/"/g,"").trim());
 let type = amount > 0 ? "income" : "expense";
 let vendor = cleanVendor(cols[2].trim());
 let color = amount > 0 ? "#4CAF50" : "#FF5252";
+
 if(type === "income"){
 totalIncome += amount;
 } else {
 totalExpenses += amount;
 }
+
+// Create row FIRST
+let tr = document.createElement("tr");
+
+// Only ONE innerHTML
 tr.innerHTML = `
 <td>${date}</td>
 <td>${vendor}</td>
 <td style="color:${color}">${amount.toFixed(2)}</td>
-`;
-  
-let category = await learnVendor(vendor);
-
-let tr = document.createElement("tr");
-
-tr.innerHTML = `
-<td>${date}</td>
-<td>${vendor}</td>
-<td>${amount}</td>
 `;
 
 tableBody.appendChild(tr);
