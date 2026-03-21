@@ -90,7 +90,11 @@ let sessionVendors = {};
 let totalIncome = 0;
 let totalExpenses = 0;
 let survivalCategories = ["Bills", "Groceries", "Fuel"];
+let lifestyleCategories = ["Shopping", "Entertainment"];
+let wealthCategories = ["Savings", "Income"];  
 let survivalTotal = 0;
+let lifestyleTotal = 0;
+let wealthTotal = 0;  
 
 document.getElementById('csvFile').addEventListener('change', handleFile);
 
@@ -136,6 +140,16 @@ function handleFile(event){
                 survivalTotal += amount;
             }
 
+          if(survivalCategories.includes(category)){
+            survivalTotal += Math.abs(amount);
+          }
+          else if(lifestyleCategories.includes(category)){
+            lifestyleTotal += Math.abs(amount);
+          }
+          else if(wealthCategories.includes(category)){
+            wealthTotal += Math.abs(amount);
+          }
+
             // totals
             if(type === "income"){
                 totalIncome += amount;
@@ -168,6 +182,20 @@ function handleFile(event){
         console.log("Net:", totalIncome + totalExpenses);
     };
 
+  let totalSpent = survivalTotal + lifestyleTotal + wealthTotal;
+
+let survivalPct = (survivalTotal / totalSpent) * 100;
+let lifestylePct = (lifestyleTotal / totalSpent) * 100;
+let wealthPct = (wealthTotal / totalSpent) * 100;
+
+  <canvas id="pieChart" width="300" height="300" style="display:block; margin:20px auto;"></canvas>
+
+<div style="text-align:center;">
+<p>Survival: <span id="survivalPct"></span>% ($<span id="survivalVal"></span>)</p>
+<p>Lifestyle: <span id="lifestylePct"></span>% ($<span id="lifestyleVal"></span>)</p>
+<p>Wealth: <span id="wealthPct"></span>% ($<span id="wealthVal"></span>)</p>
+</div>
+  
     // ✅ THIS MUST BE LAST INSIDE handleFile
     reader.readAsText(file);
 }
