@@ -196,9 +196,11 @@ document.getElementById("wealthVal").innerText = wealthTotal.toFixed(0);
 
 // draw chart
 drawPieChart(survivalTotal, lifestyleTotal, wealthTotal);
-}
-  
-    // ✅ THIS MUST BE LAST INSIDE handleFile
+        } // ✅ CLOSE reader.onload HERE
+
+    }; // ✅ CLOSE the assignment
+
+    // ✅ NOW call this OUTSIDE the onload function
     reader.readAsText(file);
 }
 
