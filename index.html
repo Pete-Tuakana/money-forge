@@ -105,9 +105,11 @@ function handleFile(event){
 
     reader.onload = async function(e){
 
-        totalIncome = 0;
-        totalExpenses = 0;
-        survivalTotal = 0;
+      totalIncome = 0;
+      totalExpenses = 0;
+      survivalTotal = 0;
+      lifestyleTotal = 0;
+      wealthTotal = 0;
 
         const text = e.target.result;
         const rows = text.split("\n");
@@ -136,10 +138,7 @@ function handleFile(event){
             }
 
             // survival calc
-            if(survivalCategories.includes(category)){
-                survivalTotal += amount;
-            }
-
+            // bucket tracking (use absolute values for chart)
           if(survivalCategories.includes(category)){
             survivalTotal += Math.abs(amount);
           }
@@ -170,33 +169,21 @@ function handleFile(event){
         }
 
         // ✅ AFTER LOOP (THIS IS THE KEY)
-        let forgeableCapital = totalIncome + survivalTotal;
+// Forge calc
+let forgeableCapital = totalIncome + survivalTotal;
 
-        let el = document.getElementById("forgeAmount");
-        el.style.color = forgeableCapital >= 0 ? "#4CAF50" : "#FF5252";
+let el = document.getElementById("forgeAmount");
+el.style.color = forgeableCapital >= 0 ? "#4CAF50" : "#FF5252";
+animateForge(forgeableCapital);
 
-        animateForge(forgeableCapital);
+// Pie calculations
+let totalSpent = survivalTotal + lifestyleTotal + wealthTotal;
 
-        console.log("Income:", totalIncome);
-        console.log("Expenses:", totalExpenses);
-        console.log("Net:", totalIncome + totalExpenses);
-    };
-
-  let totalSpent = survivalTotal + lifestyleTotal + wealthTotal;
+if(totalSpent > 0){
 
 let survivalPct = (survivalTotal / totalSpent) * 100;
 let lifestylePct = (lifestyleTotal / totalSpent) * 100;
 let wealthPct = (wealthTotal / totalSpent) * 100;
-
-  <canvas id="pieChart" width="300" height="300" style="display:block; margin:20px auto;"></canvas>
-
-<div style="text-align:center;">
-<p>Survival: <span id="survivalPct"></span>% ($<span id="survivalVal"></span>)</p>
-<p>Lifestyle: <span id="lifestylePct"></span>% ($<span id="lifestyleVal"></span>)</p>
-<p>Wealth: <span id="wealthPct"></span>% ($<span id="wealthVal"></span>)</p>
-</div>
-
-drawPieChart(survivalTotal, lifestyleTotal, wealthTotal);
 
 // update text
 document.getElementById("survivalPct").innerText = survivalPct.toFixed(1);
@@ -206,12 +193,24 @@ document.getElementById("wealthPct").innerText = wealthPct.toFixed(1);
 document.getElementById("survivalVal").innerText = survivalTotal.toFixed(0);
 document.getElementById("lifestyleVal").innerText = lifestyleTotal.toFixed(0);
 document.getElementById("wealthVal").innerText = wealthTotal.toFixed(0);
+
+// draw chart
+drawPieChart(survivalTotal, lifestyleTotal, wealthTotal);
+}
   
     // ✅ THIS MUST BE LAST INSIDE handleFile
     reader.readAsText(file);
 }
 
 </script>
+  
+<canvas id="pieChart" width="300" height="300" style="display:block; margin:20px auto;"></canvas>
+
+<div style="text-align:center;">
+<p>Survival: <span id="survivalPct"></span>% ($<span id="survivalVal"></span>)</p>
+<p>Lifestyle: <span id="lifestylePct"></span>% ($<span id="lifestyleVal"></span>)</p>
+<p>Wealth: <span id="wealthPct"></span>% ($<span id="wealthVal"></span>)</p>
+</div>
   
 <div id="categoryPopup" style="display:none; position:fixed; bottom:0; left:0; right:0; background:#222; padding:20px; border-top:2px solid #444;">
 
