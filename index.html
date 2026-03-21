@@ -195,6 +195,17 @@ let wealthPct = (wealthTotal / totalSpent) * 100;
 <p>Lifestyle: <span id="lifestylePct"></span>% ($<span id="lifestyleVal"></span>)</p>
 <p>Wealth: <span id="wealthPct"></span>% ($<span id="wealthVal"></span>)</p>
 </div>
+
+drawPieChart(survivalTotal, lifestyleTotal, wealthTotal);
+
+// update text
+document.getElementById("survivalPct").innerText = survivalPct.toFixed(1);
+document.getElementById("lifestylePct").innerText = lifestylePct.toFixed(1);
+document.getElementById("wealthPct").innerText = wealthPct.toFixed(1);
+
+document.getElementById("survivalVal").innerText = survivalTotal.toFixed(0);
+document.getElementById("lifestyleVal").innerText = lifestyleTotal.toFixed(0);
+document.getElementById("wealthVal").innerText = wealthTotal.toFixed(0);
   
     // ✅ THIS MUST BE LAST INSIDE handleFile
     reader.readAsText(file);
