@@ -103,3 +103,35 @@ document.getElementById("forgeAmount").innerText =
 }, 30);
 
 }
+
+function drawPieChart(survival, lifestyle, wealth){
+
+const canvas = document.getElementById("pieChart");
+const ctx = canvas.getContext("2d");
+
+const total = survival + lifestyle + wealth;
+
+let startAngle = 0;
+
+function drawSlice(value, color){
+    let sliceAngle = (value / total) * 2 * Math.PI;
+
+    ctx.beginPath();
+    ctx.moveTo(150,150);
+    ctx.arc(150,150,150,startAngle,startAngle + sliceAngle);
+    ctx.closePath();
+    ctx.fillStyle = color;
+    ctx.fill();
+
+    startAngle += sliceAngle;
+}
+
+// clear first
+ctx.clearRect(0,0,300,300);
+
+// draw slices
+drawSlice(survival, "#FF5252");   // red
+drawSlice(lifestyle, "#FFC107");  // yellow
+drawSlice(wealth, "#4CAF50");     // green
+
+}
