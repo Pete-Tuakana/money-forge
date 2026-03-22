@@ -98,6 +98,17 @@ let wealthTotal = 0;
 
 document.getElementById('csvFile').addEventListener('change', handleFile);
 
+let TARGET_SURVIVAL = 50;
+let TARGET_LIFESTYLE = 30;
+let TARGET_WEALTH = 20;
+  function getStatus(actual, target){
+
+if(actual > target + 2) return "🔴";
+if(actual < target - 2) return "🟡";
+return "🟢";
+
+}
+  
 function handleFile(event){
 
     const file = event.target.files[0];
@@ -181,14 +192,14 @@ let totalSpent = survivalTotal + lifestyleTotal + wealthTotal;
 
 if(totalSpent > 0){
 
-let survivalPct = (survivalTotal / totalSpent) * 100;
-let lifestylePct = (lifestyleTotal / totalSpent) * 100;
-let wealthPct = (wealthTotal / totalSpent) * 100;
+let survivalStatus = getStatus(survivalPct, TARGET_SURVIVAL);
+let lifestyleStatus = getStatus(lifestylePct, TARGET_LIFESTYLE);
+let wealthStatus = getStatus(wealthPct, TARGET_WEALTH);
 
 // update text
-document.getElementById("survivalPct").innerText = survivalPct.toFixed(1);
-document.getElementById("lifestylePct").innerText = lifestylePct.toFixed(1);
-document.getElementById("wealthPct").innerText = wealthPct.toFixed(1);
+document.getElementById("survivalPct").innerText = survivalPct.toFixed(1) + " " + survivalStatus;
+document.getElementById("lifestylePct").innerText = lifestylePct.toFixed(1) + " " + lifestyleStatus;
+document.getElementById("wealthPct").innerText = wealthPct.toFixed(1) + " " + wealthStatus;
 
 document.getElementById("survivalVal").innerText = survivalTotal.toFixed(0);
 document.getElementById("lifestyleVal").innerText = lifestyleTotal.toFixed(0);
@@ -209,9 +220,9 @@ drawPieChart(survivalTotal, lifestyleTotal, wealthTotal);
 <canvas id="pieChart" width="300" height="300" style="display:block; margin:20px auto;"></canvas>
 
 <div style="text-align:center;">
-<p>Survival: <span id="survivalPct"></span>% ($<span id="survivalVal"></span>)</p>
-<p>Lifestyle: <span id="lifestylePct"></span>% ($<span id="lifestyleVal"></span>)</p>
-<p>Wealth: <span id="wealthPct"></span>% ($<span id="wealthVal"></span>)</p>
+<p>Survival (50%): <span id="survivalPct"></span>% ($<span id="survivalVal"></span>)</p>
+<p>Lifestyle (30%): <span id="lifestylePct"></span>% ($<span id="lifestyleVal"></span>)</p>
+<p>Wealth (20%): <span id="wealthPct"></span>% ($<span id="wealthVal"></span>)</p>
 </div>
   
 <div id="categoryPopup" style="display:none; position:fixed; bottom:0; left:0; right:0; background:#222; padding:20px; border-top:2px solid #444;">
