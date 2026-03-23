@@ -192,11 +192,14 @@ let totalSpent = survivalTotal + lifestyleTotal + wealthTotal;
 
 if(totalSpent > 0){
 
+let survivalPct = (survivalTotal / totalSpent) * 100;
+let lifestylePct = (lifestyleTotal / totalSpent) * 100;
+let wealthPct = (wealthTotal / totalSpent) * 100;
+
 let survivalStatus = getStatus(survivalPct, TARGET_SURVIVAL);
 let lifestyleStatus = getStatus(lifestylePct, TARGET_LIFESTYLE);
 let wealthStatus = getStatus(wealthPct, TARGET_WEALTH);
 
-// update text
 document.getElementById("survivalPct").innerText = survivalPct.toFixed(1) + " " + survivalStatus;
 document.getElementById("lifestylePct").innerText = lifestylePct.toFixed(1) + " " + lifestyleStatus;
 document.getElementById("wealthPct").innerText = wealthPct.toFixed(1) + " " + wealthStatus;
@@ -205,11 +208,12 @@ document.getElementById("survivalVal").innerText = survivalTotal.toFixed(0);
 document.getElementById("lifestyleVal").innerText = lifestyleTotal.toFixed(0);
 document.getElementById("wealthVal").innerText = wealthTotal.toFixed(0);
 
-// draw chart
+// draw chart safely
+if(typeof drawPieChart === "function"){
 drawPieChart(survivalTotal, lifestyleTotal, wealthTotal);
-        } // ✅ CLOSE reader.onload HERE
+}
 
-    }; // ✅ CLOSE the assignment
+}
 
     // ✅ NOW call this OUTSIDE the onload function
     reader.readAsText(file);
