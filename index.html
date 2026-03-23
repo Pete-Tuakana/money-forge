@@ -101,12 +101,29 @@ document.getElementById('csvFile').addEventListener('change', handleFile);
 let TARGET_SURVIVAL = 50;
 let TARGET_LIFESTYLE = 30;
 let TARGET_WEALTH = 20;
-  function getStatus(actual, target){
+  
+function getStatus(actual, target){
 
 if(actual > target + 2) return "🔴";
 if(actual < target - 2) return "🟡";
 return "🟢";
 
+}
+
+function forecast(total){
+
+let today = new Date();
+let day = today.getDate();
+
+let daysInMonth = new Date(
+today.getFullYear(),
+today.getMonth() + 1,
+0
+).getDate();
+
+if(day === 0) return total;
+
+return (total / day) * daysInMonth;
 }
   
 function handleFile(event){
@@ -192,6 +209,19 @@ let totalSpent = survivalTotal + lifestyleTotal + wealthTotal;
 
 if(totalSpent > 0){
 
+let forecastSurvival = forecast(survivalTotal);
+let forecastLifestyle = forecast(lifestyleTotal);
+let forecastWealth = forecast(wealthTotal);
+
+document.getElementById("forecastSurvival").innerText =
+forecastSurvival.toFixed(0);
+
+document.getElementById("forecastLifestyle").innerText =
+forecastLifestyle.toFixed(0);
+
+document.getElementById("forecastWealth").innerText =
+forecastWealth.toFixed(0);
+  
 let survivalPct = (survivalTotal / totalSpent) * 100;
 let lifestylePct = (lifestyleTotal / totalSpent) * 100;
 let wealthPct = (wealthTotal / totalSpent) * 100;
