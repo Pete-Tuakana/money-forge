@@ -198,7 +198,7 @@ function handleFile(event){
 
         // ✅ AFTER LOOP (THIS IS THE KEY)
 // Forge calc
-let forgeableCapital = totalIncome + survivalTotal;
+let forgeableCapital = totalIncome - survivalTotal - lifestyleTotal;
 
 let el = document.getElementById("forgeAmount");
 el.style.color = forgeableCapital >= 0 ? "#4CAF50" : "#FF5252";
