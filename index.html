@@ -125,6 +125,28 @@ if(day === 0) return total;
 
 return (total / day) * daysInMonth;
 }
+
+function checkRisk(survivalPct, lifestylePct, wealthPct){
+
+let warning = "";
+
+if(survivalPct > 60){
+warning += "Survival spending is trending high.\n";
+}
+
+if(lifestylePct > 30){
+warning += "Lifestyle spending is trending high.\n";
+}
+
+if(wealthPct < 10){
+warning += "Wealth building is below target.\n";
+}
+
+if(warning !== ""){
+alert("⚠️ Budget Warning\n\n" + warning);
+}
+
+}
   
 function handleFile(event){
 
@@ -247,6 +269,12 @@ document.getElementById("survivalVal").innerText = survivalTotal.toFixed(0);
 document.getElementById("lifestyleVal").innerText = lifestyleTotal.toFixed(0);
 document.getElementById("wealthVal").innerText = wealthTotal.toFixed(0);
 
+checkRisk(
+survivalPercent,
+lifestylePercent,
+wealthPercent
+);
+  
 // draw chart safely
 if(typeof drawPieChart === "function"){
 drawPieChart(survivalTotal, lifestyleTotal, wealthTotal);
