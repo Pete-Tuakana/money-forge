@@ -221,6 +221,15 @@ forecastLifestyle.toFixed(0);
 
 document.getElementById("forecastWealth").innerText =
 forecastWealth.toFixed(0);
+
+document.getElementById("nextSurvival").innerText =
+survivalTotal.toFixed(0);
+
+document.getElementById("nextLifestyle").innerText =
+lifestyleTotal.toFixed(0);
+
+document.getElementById("nextWealth").innerText =
+wealthTotal.toFixed(0);
   
 let survivalPct = (survivalTotal / totalSpent) * 100;
 let lifestylePct = (lifestyleTotal / totalSpent) * 100;
@@ -268,6 +277,15 @@ drawPieChart(survivalTotal, lifestyleTotal, wealthTotal);
 <p>Projected Survival: $<span id="forecastSurvival">0</span></p>
 <p>Projected Lifestyle: $<span id="forecastLifestyle">0</span></p>
 <p>Projected Wealth: $<span id="forecastWealth">0</span></p>
+
+</div>
+
+<div id="nextMonthBox" style="text-align:center; margin-top:25px;">
+<h2 style="font-size:18px; color:#aaa;">NEXT MONTH PREDICTION</h2>
+
+<p>Survival: $<span id="nextSurvival">0</span></p>
+<p>Lifestyle: $<span id="nextLifestyle">0</span></p>
+<p>Wealth: $<span id="nextWealth">0</span></p>
 
 </div>
   
